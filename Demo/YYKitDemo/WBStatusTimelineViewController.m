@@ -5,7 +5,7 @@
 //  Created by ibireme on 15/9/4.
 //  Copyright (c) 2015 ibireme. All rights reserved.
 //
-
+#import "MyPhotoGroupView.h"
 #import "WBStatusTimelineViewController.h"
 #import "YYKit.h"
 #import "WBModel.h"
@@ -273,8 +273,10 @@
         }
     }
     
-    YYPhotoGroupView *v = [[YYPhotoGroupView alloc] initWithGroupItems:items];
-    [v presentFromImageView:fromView toContainer:self.navigationController.view animated:YES completion:nil];
+    //YYPhotoGroupView *v = [[YYPhotoGroupView alloc] initWithGroupItems:items];
+    // [v presentFromImageView:fromView toContainer:self.navigationController.view animated:YES completion:nil];
+    MyPhotoGroupView *v = [[MyPhotoGroupView alloc] initWithItemsArrays:items];
+    [v presentImageView:fromView tocontainter:self.navigationController.view animated:YES complete:nil];
 }
 
 /// 点击了 Label 的链接

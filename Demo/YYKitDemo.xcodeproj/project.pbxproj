@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6394A7781DF5552100DFC6A0 /* MyPhotoGroupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6394A7771DF5552100DFC6A0 /* MyPhotoGroupView.m */; };
 		ABDC320D1BEAFB870012A159 /* YYTextTagExample.m in Sources */ = {isa = PBXBuildFile; fileRef = ABDC320C1BEAFB870012A159 /* YYTextTagExample.m */; };
 		D9067DF11B975D3900F346EB /* YYTextExampleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D9067DF01B975D3900F346EB /* YYTextExampleHelper.m */; };
 		D9067DF41B9813B500F346EB /* YYTextEditExample.m in Sources */ = {isa = PBXBuildFile; fileRef = D9067DF31B9813B500F346EB /* YYTextEditExample.m */; };
@@ -196,6 +197,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6394A7761DF5552100DFC6A0 /* MyPhotoGroupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPhotoGroupView.h; sourceTree = "<group>"; };
+		6394A7771DF5552100DFC6A0 /* MyPhotoGroupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPhotoGroupView.m; sourceTree = "<group>"; };
 		ABDC320B1BEAFB870012A159 /* YYTextTagExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYTextTagExample.h; sourceTree = "<group>"; };
 		ABDC320C1BEAFB870012A159 /* YYTextTagExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTextTagExample.m; sourceTree = "<group>"; };
 		D9067DEF1B975D3900F346EB /* YYTextExampleHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYTextExampleHelper.h; sourceTree = "<group>"; };
@@ -655,6 +658,8 @@
 				D97FC1121BA191C800E7ECBF /* YYTableViewCell.m */,
 				D99196281BA71AD80071C80E /* YYControl.h */,
 				D99196291BA71AD80071C80E /* YYControl.m */,
+				6394A7761DF5552100DFC6A0 /* MyPhotoGroupView.h */,
+				6394A7771DF5552100DFC6A0 /* MyPhotoGroupView.m */,
 				D9700CC71BC680A000F878A4 /* YYPhotoGroupView.h */,
 				D9700CC81BC680A000F878A4 /* YYPhotoGroupView.m */,
 				D94D6D101BA323DA00852804 /* YYSimpleWebViewController.h */,
@@ -1269,6 +1274,7 @@
 				D9067DF41B9813B500F346EB /* YYTextEditExample.m in Sources */,
 				D9B260881BEE79370038C00A /* YYTextMagnifier.m in Sources */,
 				D9B2606F1BEE79370038C00A /* YYDiskCache.m in Sources */,
+				6394A7781DF5552100DFC6A0 /* MyPhotoGroupView.m in Sources */,
 				D9237BCC1BC2BA650092A558 /* WBStatusComposeTextParser.m in Sources */,
 				D9B260501BEE79370038C00A /* NSArray+YYAdd.m in Sources */,
 				D9B260621BEE79370038C00A /* UIBezierPath+YYAdd.m in Sources */,
