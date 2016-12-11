@@ -57,15 +57,46 @@
 
 @implementation YYAppDelegate
 
+- (void)memoryTest {
+    for (int i = 0; i < 100000; ++i) {
+        NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(run) object:nil];
+        [thread start];
+    }
+}
+
+- (void)run {
+    @autoreleasepool {
+        NSLog(@"current thread = %@", [NSThread currentThread]);
+        NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+//        if (!self.emptyPort) {
+//            self.emptyPort = ;
+//        }
+        [runLoop addPort:[NSMachPort port] forMode:NSDefaultRunLoopMode];
+        [runLoop run];
+    }
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+   // [self memoryTest];
+//    id __weak xx = [NSMutableArray array];
+//    NSLog(@"Retain count is %ld", CFGetRetainCount((__bridge CFTypeRef)xx));
+//    
+//    id  zz = [NSMutableArray array];
+//    NSLog(@"Retain count is %ld", CFGetRetainCount((__bridge CFTypeRef)xx));
+
+   
     YYRootViewController *root = [YYRootViewController new];
+   
     YYExampleNavController *nav = [[YYExampleNavController alloc] initWithNavigationBarClass:[YYExampleNavBar class] toolbarClass:[UIToolbar class]];
+    
     if ([nav respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)]) {
         nav.automaticallyAdjustsScrollViewInsets = NO;
     }
     [nav pushViewController:root animated:NO];
+    NSLog(@"Retain count is %ld", CFGetRetainCount((__bridge CFTypeRef)nav));
     
     self.rootViewController = nav;
+     NSLog(@"Retain count is %ld", CFGetRetainCount((__bridge CFTypeRef)nav));
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.rootViewController;
     self.window.backgroundColor = [UIColor grayColor];

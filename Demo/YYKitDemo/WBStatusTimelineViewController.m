@@ -273,8 +273,8 @@
         }
     }
     
-    //YYPhotoGroupView *v = [[YYPhotoGroupView alloc] initWithGroupItems:items];
-    // [v presentFromImageView:fromView toContainer:self.navigationController.view animated:YES completion:nil];
+//    YYPhotoGroupView *v = [[YYPhotoGroupView alloc] initWithGroupItems:items];
+//     [v presentFromImageView:fromView toContainer:self.navigationController.view animated:YES completion:nil];
     MyPhotoGroupView *v = [[MyPhotoGroupView alloc] initWithItemsArrays:items];
     [v presentImageView:fromView tocontainter:self.navigationController.view animated:YES complete:nil];
 }

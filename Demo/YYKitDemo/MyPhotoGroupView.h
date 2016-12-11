@@ -10,16 +10,20 @@
 
 @interface  MyPhotoItem: NSObject
 
+//@property (nonatomic, strong) UIView *thumbView; ///< thumb image, used for animation position calculation
+//@property (nonatomic, assign) CGSize largeImageSize;
+//@property (nonatomic, strong) NSURL *largeImageURL;
+
 @property (nonatomic , strong) UIView *thumbView;
 @property (nonatomic , assign) CGSize largeImageSize;
-@property (nonatomic , strong) NSURL *largeImageUrl;
+@property (nonatomic , strong) NSURL *largeImageURL;
 
 @end
 
 @interface MyPhotoGroupView : UIView
 
 @property (nonatomic,strong)NSArray *itemsArray;
-@property (nonatomic,assign)NSInteger *currentPage;
+@property (nonatomic,assign)NSInteger currentPage;
 
 - (instancetype)initWithItemsArrays:(NSArray *)itemsArray;
 - (void)presentImageView:(UIView *)fromView
