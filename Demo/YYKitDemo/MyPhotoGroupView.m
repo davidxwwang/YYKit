@@ -11,7 +11,7 @@
 #import "YYAnimatedImageView.h"
 #import "UIImageView+YYWebImage.h"
 #import "UIImage+YYAdd.h"
-
+#import "YYPhotoGroupView.h"
 #define progressLayerwidth 40
 
 @interface MyPhotoItem()
@@ -53,6 +53,7 @@
     self.delegate = self;
     _imageContainerView = [UIView new];
     _imageContainerView.clipsToBounds = YES;
+    _imageContainerView.contentMode = UIViewContentModeScaleAspectFill;
     [self addSubview:_imageContainerView];
     
     _imageView = [YYAnimatedImageView new];
@@ -67,7 +68,7 @@
 
     UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectInset(_progressLayer.bounds, 7, 7) cornerRadius:(40 / 2 - 7)];
     _progressLayer.path = path.CGPath;
-    _progressLayer.fillColor = [UIColor redColor].CGColor;
+    _progressLayer.fillColor = [UIColor clearColor].CGColor;
     _progressLayer.strokeColor = [UIColor whiteColor].CGColor;
     _progressLayer.lineWidth = 4;
     _progressLayer.lineCap = kCALineCapRound;
@@ -97,12 +98,12 @@
         CGFloat progress = receivedSize / expectedSize;
         progress = progress < 0.01 ? 0.01 : progress > 1.0 ? 1.0 : progress;
         
-        weakSelf.progressLayer.hidden = YES;
+        weakSelf.progressLayer.hidden = NO;
         weakSelf.progressLayer.strokeEnd = progress;
         
     } transform:nil completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error){
         
-        weakSelf.progressLayer.hidden = NO;
+        weakSelf.progressLayer.hidden = YES;
         [weakSelf resizeSubViews];
     
         }];
@@ -115,8 +116,6 @@
     _imageContainerView.origin = CGPointZero;
     _imageContainerView.width = self.width;
     _imageContainerView.height = self.height;
-     CGSize xx = _imageView.image.size;
-//    _imageView.frame = _imageContainerView.bounds;
 //    
 //    _imageView.frame = CGRectMake(_imageContainerView.center.x, _imageContainerView.bounds.size.height/2, MIN(xx.width, xx.height), MIN(xx.width, xx.height));
     
@@ -133,7 +132,7 @@
     if (_imageContainerView.height > self.height && _imageContainerView.height - self.height <= 1) {
         _imageContainerView.height = self.height;
     }
-    self.contentSize = CGSizeMake(self.width, MAX(_imageContainerView.height, self.height));
+    self.contentSize = CGSizeMake(self.width, image.size.height);//MAX(_imageContainerView.height, self.height));
     [self scrollRectToVisible:self.bounds animated:NO];
     
     if (_imageContainerView.height <= self.height) {
@@ -141,6 +140,8 @@
     } else {
         self.alwaysBounceVertical = YES;
     }
+    
+    _imageView.frame = _imageContainerView.bounds;
 
 }
 
@@ -255,8 +256,6 @@
             
             _blurBackground.alpha =fabs(delter)/100;
             
-            
-            
         }break;
         case UIGestureRecognizerStateEnded:{
             CGPoint p = [g locationInView:self];
@@ -354,21 +353,41 @@
     _containerView = container;
     
     self.pager.numberOfPages = _itemsArray.count;
-    self.pager.currentPage = 0;
     
-    //self.origin = CGPointMake(0, _containerView.size.height);
-    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-        //self.origin = CGPointMake(0, _containerView.size.height);
-       
-        
-    } completion:^(BOOL finished) {
-        self.size = _containerView.size;
-        [_containerView addSubview:self];
-        _scrollView.contentSize = CGSizeMake(_scrollView.width *_itemsArray.count, _scrollView.height);
-        [_scrollView scrollRectToVisible:CGRectMake(_scrollView.width *_pager.currentPage, 0, _scrollView.width, _scrollView.height) animated:YES];
-        [self scrollViewDidScroll:_scrollView];
-        
-    }];
+    NSInteger originalIndex = -1;
+    
+    for (NSInteger i = 0; i <_itemsArray.count;i++) {
+        if (((YYPhotoGroupItem *)_itemsArray[i]).thumbView == fromView) {
+            originalIndex = i;
+            break;
+        }
+    }
+    
+    if (originalIndex == -1) {
+        originalIndex = 0;
+    }
+    
+    self.pager.currentPage = originalIndex;
+    self.size = _containerView.size;
+    [_containerView addSubview:self];
+    _scrollView.contentSize = CGSizeMake(_scrollView.width *_itemsArray.count, _scrollView.height);
+    
+    [_scrollView scrollRectToVisible:CGRectMake(_scrollView.width *_pager.currentPage, 0, _scrollView.width, _scrollView.height) animated:YES];
+    [self scrollViewDidScroll:_scrollView];
+    
+//    [UIView animateWithDuration:0.0 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+//        //self.origin = CGPointMake(0, _containerView.size.height);
+//       
+//        
+//    } completion:^(BOOL finished) {
+//        self.size = _containerView.size;
+//        [_containerView addSubview:self];
+//        _scrollView.contentSize = CGSizeMake(_scrollView.width *_itemsArray.count, _scrollView.height);
+//       
+//        [_scrollView scrollRectToVisible:CGRectMake(_scrollView.width *_pager.currentPage, 0, _scrollView.width, _scrollView.height) animated:YES];
+//         [self scrollViewDidScroll:_scrollView];
+//        
+//    }];
 
 }
 
@@ -386,7 +405,7 @@
     
     for (NSInteger i = page - 1 ; i <= page + 1; i ++) {
         if (i >=0 && i< _itemsArray.count) {
-            MyPhotoCell *cell = [self cellForpage:page];
+            MyPhotoCell *cell = [self cellForpage:i];
             if (!cell) {
                 MyPhotoCell *cell = [self dequeueReusableCell];
                 cell.page = i;

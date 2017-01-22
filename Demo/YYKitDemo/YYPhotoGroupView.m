@@ -419,7 +419,7 @@
         cell.imageView.image = item.thumbImage;
         [cell resizeSubviewSize];
     }
-    
+   
     if (item.thumbClippedToTop) {
         CGRect fromFrame = [_fromView convertRect:_fromView.bounds toView:cell];
         CGRect originFrame = cell.imageContainerView.frame;

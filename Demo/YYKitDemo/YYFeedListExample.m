@@ -30,6 +30,8 @@
         self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
     }
     [self.tableView reloadData];
+    self.view.backgroundColor = [UIColor yellowColor];
+//    self.edgesForExtendedLayout = UIRectEdgeNone;
 }
 
 - (void)addCell:(NSString *)title class:(NSString *)className image:(NSString *)imageName {

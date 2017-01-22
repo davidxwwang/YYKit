@@ -18,6 +18,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+//    UIScrollView *xx = (UIScrollView *)self.view;
+//    xx.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
+    
+    self.view.backgroundColor = [UIColor redColor];
     self.title = @"YYKit Example";
     self.titles = @[].mutableCopy;
     self.classNames = @[].mutableCopy;
@@ -74,6 +78,13 @@
         [self.navigationController pushViewController:ctrl animated:YES];
     }
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    NSLog(@"contentOffset = %f,",scrollView.contentOffset.y);
+    NSLog(@"contentInsetset = %f,",scrollView.contentInset.bottom);
+    
 }
 
 @end
