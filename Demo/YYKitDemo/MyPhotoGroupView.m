@@ -13,6 +13,8 @@
 #import "UIImage+YYAdd.h"
 #import "YYPhotoGroupView.h"
 #define progressLayerwidth 40
+#define imageDisappearDelta 100
+#define padding 10
 
 @interface MyPhotoItem()
 
@@ -39,6 +41,7 @@
 @property (nonatomic,strong) CAShapeLayer *progressLayer;
 @property (nonatomic,strong) YYAnimatedImageView *imageView;
 @property (nonatomic,strong) UIView *imageContainerView;
+
 
 @end
 
@@ -176,6 +179,7 @@
 @property (nonatomic, assign) CGPoint panGestureBeginPoint;
 
 @property (nonatomic, strong) UIImageView *blurBackground;
+@property (nonatomic,strong) UIImage *snapshotImage;
 
 
 @end
@@ -254,13 +258,13 @@
             CGFloat delter = changedPoint.y - _panGestureBeginPoint.y;
             _scrollView.top = delter;
             
-            _blurBackground.alpha =fabs(delter)/100;
+            _blurBackground.alpha =(imageDisappearDelta - fabs(delter))/imageDisappearDelta;
             
         }break;
         case UIGestureRecognizerStateEnded:{
             CGPoint p = [g locationInView:self];
-            if (fabs(p.y - _panGestureBeginPoint.y) > 100) {
-                BOOL movetoTop = (p.y - _panGestureBeginPoint.y) < 0 ;
+            if (fabs(p.y - _panGestureBeginPoint.y) > imageDisappearDelta) {
+                BOOL movetoTop = (p.y - _panGestureBeginPoint.y) < 0 ; //向上向下滑动的标示
                 
                 [UIView animateWithDuration:0.3 animations:^{
                     _blurBackground.alpha = 0;
@@ -367,12 +371,14 @@
         originalIndex = 0;
     }
     
+    _snapshotImage = [container snapshotImageAfterScreenUpdates:NO];
+    _blurBackground.image =  [_snapshotImage imageByBlurDark]; //毛玻璃效果
     self.pager.currentPage = originalIndex;
     self.size = _containerView.size;
     [_containerView addSubview:self];
-    _scrollView.contentSize = CGSizeMake(_scrollView.width *_itemsArray.count, _scrollView.height);
+    _scrollView.contentSize = CGSizeMake(_scrollView.width *_itemsArray.count + padding*(_itemsArray.count - 1), _scrollView.height);
     
-    [_scrollView scrollRectToVisible:CGRectMake(_scrollView.width *_pager.currentPage, 0, _scrollView.width, _scrollView.height) animated:YES];
+    [_scrollView scrollRectToVisible:CGRectMake((_scrollView.width + padding) *_pager.currentPage, 0, _scrollView.width, _scrollView.height) animated:NO];
     [self scrollViewDidScroll:_scrollView];
     
 //    [UIView animateWithDuration:0.0 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
@@ -396,7 +402,7 @@
 {
     [self updateCellsForReuse];
     
-    CGFloat floatPage = _scrollView.contentOffset.x / _scrollView.width;
+    CGFloat floatPage = _scrollView.contentOffset.x / (_scrollView.width + padding);
     NSInteger page = floatPage + 0.5;
     page = page < 0 ? 0 : page >= _itemsArray.count ? (int)_itemsArray.count - 1 : page;
    // NSInteger page = _scrollView.contentOffset.x / _scrollView.width;
@@ -409,7 +415,7 @@
             if (!cell) {
                 MyPhotoCell *cell = [self dequeueReusableCell];
                 cell.page = i;
-                cell.left = self.width * i;
+                cell.left = (self.width +padding) * i ;
                 cell.photoItem = _itemsArray[i];
                 [_scrollView addSubview:cell];
                 
@@ -477,32 +483,6 @@
 
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

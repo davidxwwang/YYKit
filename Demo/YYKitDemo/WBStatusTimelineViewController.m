@@ -16,6 +16,7 @@
 #import "WBStatusComposeViewController.h"
 #import "YYPhotoGroupView.h"
 #import "YYFPSLabel.h"
+#import "PYSearchExampleController.h"
 
 
 @interface WBStatusTimelineViewController () <UITableViewDelegate, UITableViewDataSource, WBStatusCellDelegate>
@@ -35,6 +36,7 @@
     return self;
 }
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     if ([self respondsToSelector:@selector( setAutomaticallyAdjustsScrollViewInsets:)]) {
@@ -43,7 +45,10 @@
     
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithImage:[WBStatusHelper imageNamed:@"toolbar_compose_highlighted"] style:UIBarButtonItemStylePlain target:self action:@selector(sendStatus)];
     rightItem.tintColor = UIColorHex(fd8224);
-    self.navigationItem.rightBarButtonItem = rightItem;
+    
+    UIBarButtonItem *rightItem1 = [[UIBarButtonItem alloc] initWithImage:[WBStatusHelper imageNamed:@"toolbar_compose_highlighted"] style:UIBarButtonItemStylePlain target:self action:@selector(search)];
+
+    self.navigationItem.rightBarButtonItems= @[rightItem1,rightItem];
     
     _tableView.frame = self.view.bounds;
     _tableView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
@@ -98,6 +103,12 @@
             [_tableView reloadData];
         });
     });
+}
+
+- (void)search
+{
+    PYSearchExampleController *searchVC  = [[PYSearchExampleController alloc] init];
+    [self.navigationController pushViewController:searchVC animated:YES];
 }
 
 - (void)sendStatus {
@@ -273,8 +284,8 @@
         }
     }
     
-//    YYPhotoGroupView *v = [[YYPhotoGroupView alloc] initWithGroupItems:items];
-//     [v presentFromImageView:fromView toContainer:self.navigationController.view animated:YES completion:nil];
+    //YYPhotoGroupView *vv = [[YYPhotoGroupView alloc] initWithGroupItems:items];
+    // [vv presentFromImageView:fromView toContainer:self.navigationController.view animated:YES completion:nil];
     MyPhotoGroupView *v = [[MyPhotoGroupView alloc] initWithItemsArrays:items];
     [v presentImageView:fromView tocontainter:self.navigationController.view animated:YES complete:nil];
 }
